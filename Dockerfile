@@ -1,29 +1,12 @@
-# Base image 
-FROM node:23-alpine3.20 as build
+FROM node:18
 
-# Working Directory 
-WORKDIR /onlineshop-poc
+WORKDIR /app
 
-# Copy package.json file to working directory
-COPY package*.json  ./
-
-# To install dependancy
-RUN npm i
-
-# copy code from source to destination
 COPY . .
 
-RUN npm run build
+RUN npm install
 
+EXPOSE 5173
 
-# Stage 2 start
+CMD ["npm","run","dev"]
 
-FROM nginx:alpine
-
-# Copy the built files from the build stage
-COPY --from=build /onlineshop-poc/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
-CMD ["nginx","-g","daemon off;"]
