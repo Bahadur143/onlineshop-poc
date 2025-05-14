@@ -30,7 +30,7 @@ pipeline{
         }
         stage("Deploy"){
             steps{
-                sh "docker run -d -p 5173:5173 anilsahu350/online-shop:latest "
+                sh "docker compose up -d "
             }
         }
     }
