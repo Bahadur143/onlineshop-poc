@@ -14,7 +14,7 @@ pipeline{
         stage("Build"){
             steps{
                 script{
-                docker_build ("online-shop,"latest","anilsahu350")
+                docker_build ("online-shop","latest","anilsahu350")
                 echo "image build success fully"
                               }
                 }
