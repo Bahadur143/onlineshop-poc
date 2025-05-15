@@ -1,7 +1,7 @@
 @Library("Shared") _
 
 pipeline{
-    agent any
+    agent any;
     stages{
         stage("Code"){
             steps{
