@@ -1,16 +1,22 @@
+@Library("Shared") _
+
 pipeline{
     agent any
     stages{
         stage("Code"){
             steps{
-                git url: "https://github.com/Bahadur143/onlineshop-poc.git",branch:"dev"
+                script{
+                clone ("https://github.com/Bahadur143/onlineshop-poc.git","dev")
                 echo "Code clone successfully"
+                }
             }
         }
         stage("Build"){
             steps{
-                sh "docker build -t online-shop -f ./Dockerfile-multi ."
+                script{
+                docker_build ("online-shop,"latest","anilsahu350")
                 echo "image build success fully"
+                              }
                 }
         }
         stage("Test"){
@@ -20,11 +26,8 @@ pipeline{
         }
         stage("Push to Docker Hub"){
             steps{
-                withCredentials([usernamePassword(credentialsId:"dockerHubCred",
-                passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                    sh "docker image tag online-shop:latest ${env.dockerHubUser}/online-shop:latest"
-                    sh "docker push ${env.dockerHubUser}/online-shop:latest"
+                script{
+                    docker_push("online-shop","latest","anilsahu350")
                 }
             }
         }
